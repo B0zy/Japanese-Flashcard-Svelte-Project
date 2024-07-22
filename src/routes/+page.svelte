@@ -40,21 +40,33 @@
 	}
 
 	function onCheckAnswer() {
-		if (inputValue === randomCharacterSet.romaji) {
-			answerValue = 'Correct!';
-			getRandomCharacter();
-			incorrectCharacters = [];
+		if (inputValue.trim() !== '') {
+			// Check if the input is empty
+			if (inputValue === randomCharacterSet.romaji) {
+				answerValue = 'Correct!';
+				getRandomCharacter();
+				incorrectCharacters = [];
+			} else {
+				answerValue = 'Incorrect!';
+				incorrectCharacters.push(inputValue);
+			}
+			inputValue = '';
 		} else {
-			answerValue = 'Incorrect!';
-			incorrectCharacters.push(inputValue);
+			answerValue = 'Please enter a character!';
 		}
+	}
+
+	function PicknewCharacter() {
+		getRandomCharacter();
+		incorrectCharacters = [];
+		answerValue = '';
 		inputValue = '';
 	}
 
 	$inspect(inputValue);
 </script>
 
-<div class="flex flex-col justify-center mt-10 gap-10">
+<div class="flex flex-col justify-center mt-10 gap-4">
 	<Flashcard katana={randomCharacterSet.katakana} hiragana={randomCharacterSet.hiragana} />
 
 	<p class="text-sky-50 text-xl text-center">Characters already used: {incorrectCharacters}</p>
@@ -67,5 +79,7 @@
 		</p>
 	</div>
 
-	<Button onclick={onCheckAnswer} />
+	<Button text="Check Answer" onclick={onCheckAnswer} />
+
+	<Button text="New Card" onclick={PicknewCharacter} />
 </div>
